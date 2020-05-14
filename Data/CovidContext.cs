@@ -15,21 +15,25 @@ namespace Covid.Data
 
         public DbSet<Dataset> Datas { get; set; }
         // public DbSet<Records> Records { get; set; }
-
+        
         public CovidContext()
         { }
+        
         public CovidContext(DbContextOptions<CovidContext> options) : base(options)
         {
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            // optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=entityframework;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CovidDB;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
-
+        
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }
+        */
     }
 }
