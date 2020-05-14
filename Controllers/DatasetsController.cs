@@ -24,10 +24,6 @@ namespace Covid.Controllers
         {
             return View(await _context.Datas.ToListAsync());
         }
-        public async Task<IActionResult> Wykres()
-        {
-            return View(await _context.Datas.ToListAsync());
-        }
 
         // GET: Datasets/Details/5
         public async Task<IActionResult> Details(uint? id)
