@@ -27,15 +27,18 @@ namespace Covid.Data
         {
             base.OnModelCreating(modelBuilder);
 
-           var wc = new WebClient()
-           var json = wc.DownloadString("https://opendata.ecdc.europa.eu/covid19/casedistribution/json/");
+            var wc = new WebClient();
+            var json = wc.DownloadString("https://opendata.ecdc.europa.eu/covid19/casedistribution/json/");
             var data = JsonConvert.DeserializeObject<Records>(json, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
-            var jsonStateList = MyAppResources.StateXml;
-            var states = JsonConvert.DeserializeObject<List<State>>(jsonStateList);
-            modelBuilder.Entity<State>().HasData(states);
+            modelBuilder.Entity<Records>().HasNoKey();
+            modelBuilder.Entity<Dataset>().HasNoKey();
+            modelBuilder.Entity<Records>().HasData(data);
+            modelBuilder.Entity<Dataset>().HasData(data);
+
+
         }
 
     }
