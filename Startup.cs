@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Covid.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Covid
 {
     public class Startup
@@ -23,10 +25,8 @@ namespace Covid
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            using (var context = new CovidContext())
-            {
-                context.Database.EnsureCreated();
-            }
+            services.AddDbContext<CovidContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
         }
 
