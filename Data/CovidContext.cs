@@ -11,6 +11,8 @@ namespace Covid.Data
 {
     public class CovidContext : DbContext
     {
+        private object month;
+
         public DbSet<Dataset> Datas { get; set; }
        // public DbSet<Records> Records { get; set; }
 
@@ -53,32 +55,25 @@ namespace Covid.Data
             uint iterator = 1;
             foreach (var d in data.records)
             {
-                
+
                 Dataset dataset = new Dataset() {
-                ID=iterator,
-                DataRep = d.DataRep,
+                    ID = iterator,
+                    //DataRep = d.DataRep,
                 day = d.day,
                 month = d.month,
                 year=d.year,
+                DataRep = DateTime.Parse(d.year.ToString() + "-" + d.month.ToString() + "-" + d.day.ToString()),
                 cases=d.cases,
                 deaths=d.deaths,
                 countriesAndTerritories=d.countriesAndTerritories,
                 geoId=d.geoId,
                 countryterritoryCode=d.countryterritoryCode,
                 popData2018=d.popData2018,
-                ContinentExp=d.ContinentExp,
-                newCases=d.newCases,
-                
+                ContinentExp=d.ContinentExp                
             };
                 ++iterator;
                 modelBuilder.Entity<Dataset>().HasData(dataset);
             };
-           // modelBuilder.Entity<Records>().HasNoKey();
-            
-           // modelBuilder.Entity<Records>().HasData(new Records() = data);
-           // modelBuilder.Entity<Dataset>().HasData(data);
-            
-
 
         }
 
