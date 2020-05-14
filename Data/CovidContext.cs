@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Covid.Models;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Covid.Data
 {
@@ -18,11 +20,23 @@ namespace Covid.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=entityframework;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+           var wc = new WebClient()
+           var json = wc.DownloadString("https://opendata.ecdc.europa.eu/covid19/casedistribution/json/");
+            var data = JsonConvert.DeserializeObject<Records>(json, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+            var jsonStateList = MyAppResources.StateXml;
+            var states = JsonConvert.DeserializeObject<List<State>>(jsonStateList);
+            modelBuilder.Entity<State>().HasData(states);
         }
+
     }
 }
