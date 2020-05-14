@@ -17,7 +17,11 @@ namespace Covid.Controllers
         {
             _logger = logger;
         }
-
+        public IActionResult GetChartData()
+        {
+            var data = db.Datasets.ToList();
+            return Json(data);
+        }
         public IActionResult Index()
         {
             return View();
